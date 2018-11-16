@@ -1,0 +1,17 @@
+# Mac OS X
+# metadata
+.DS_Store
+# thumbnails
+._*
+
+# Java
+*.class
+# packages 
+*.jar
+*.war
+*.ear
+
+# Eclipse
+.settings/
+
+bin/
