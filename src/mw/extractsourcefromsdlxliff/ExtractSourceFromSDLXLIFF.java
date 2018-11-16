@@ -22,6 +22,8 @@ import org.apache.commons.codec.binary.Base64;
 
 public class ExtractSourceFromSDLXLIFF {
 
+	private static String extractedSourceFileName = null;
+
 	public static void main(String[] args) {
 
 		for (Path sdlxliff : listAllFiles(Paths.get("./"), "*.sdlxliff")) {
@@ -74,6 +76,14 @@ public class ExtractSourceFromSDLXLIFF {
 
 				int event = reader.next();
 
+				if (event == XMLStreamReader.START_ELEMENT && reader.getLocalName() == "file")
+					for (int i = 0; i < reader.getAttributeCount(); ++i)
+						if (reader.getAttributeLocalName(i) == "original") {
+							String sourceFilePath = reader.getAttributeValue(i);
+							int lastIndex = sourceFilePath.replaceAll("\\\\", "/").lastIndexOf("/");
+							extractedSourceFileName = sourceFilePath.substring(lastIndex + 1);
+						}
+
 				if (event == XMLStreamReader.START_ELEMENT && reader.getLocalName() == "internal-file")
 					lastEventWasReferenceElement = true;
 
@@ -108,7 +118,7 @@ public class ExtractSourceFromSDLXLIFF {
 			while ((entry = zipStream.getNextEntry()) != null) {
 				String entryName = entry.getName();
 
-				String outputFile = "./" + entryName;
+				String outputFile = extractedSourceFileName != null ? extractedSourceFileName : entryName;
 
 				if (Files.notExists(Paths.get(outputFile))) {
 					FileOutputStream out = null;
