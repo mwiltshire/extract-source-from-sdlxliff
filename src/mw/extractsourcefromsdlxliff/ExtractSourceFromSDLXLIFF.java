@@ -74,13 +74,11 @@ public class ExtractSourceFromSDLXLIFF {
 
 				int event = reader.next();
 
-				if (event == XMLStreamReader.START_ELEMENT && reader.getLocalName() == "internal-file") {
+				if (event == XMLStreamReader.START_ELEMENT && reader.getLocalName() == "internal-file")
 					lastEventWasReferenceElement = true;
-				}
 
-				if (lastEventWasReferenceElement && event == XMLStreamReader.CHARACTERS) {
+				if (lastEventWasReferenceElement && event == XMLStreamReader.CHARACTERS)
 					stringBuffer.append(reader.getText());
-				}
 
 				if (lastEventWasReferenceElement && event == XMLStreamReader.END_ELEMENT)
 					break;
