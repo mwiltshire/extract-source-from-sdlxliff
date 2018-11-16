@@ -14,6 +14,8 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.commons.codec.binary.Base64;
+
 public class ExtractSourceFromSDLXLIFF {
 
 	public static void main(String[] args) {
@@ -23,6 +25,7 @@ public class ExtractSourceFromSDLXLIFF {
 			try {
 
 				String base64String = findBase64EncodedSourceInSDLXLIFF(sdlxliff.toString());
+				decode(base64String);
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -86,6 +89,12 @@ public class ExtractSourceFromSDLXLIFF {
 
 		return stringBuffer.toString();
 
+	}
+
+	public static byte[] decode(String base64EncodedString) {
+
+		return Base64.decodeBase64(base64EncodedString);
+		
 	}
 
 }
