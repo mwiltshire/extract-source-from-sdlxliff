@@ -26,21 +26,14 @@ public class ExtractSourceFromSDLXLIFF {
 
 	public static void main(String[] args) {
 
-		for (Path sdlxliff : listAllFiles(Paths.get("./"), "*.sdlxliff")) {
+		for (Path sdlxliff : listAllFiles(Paths.get("."), "*.sdlxliff")) {
 
 			try {
 
 				String base64String = findBase64EncodedSourceInSDLXLIFF(sdlxliff.toString());
 				extractSource(decode(base64String));
 
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (XMLStreamException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (XMLStreamException | IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -155,7 +148,6 @@ public class ExtractSourceFromSDLXLIFF {
 			zipStream.close();
 
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
